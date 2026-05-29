@@ -1,23 +1,20 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
-from app.database.db import SessionLocal
+from app.database.deps import get_db
 from app.models.interview_model import InterviewSession
 from app.models.question_model import Question
 from app.models.session_question_model import SessionQuestion
 from app.models.user_models import User
-from app.schemas.interview_schema import InterviewCreate
+from app.schemas.interview_schema import InterviewCreate,InterviewResponse
 from app.services.auth_service import get_current_user
 
 router = APIRouter()
 
 
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
+@router.get("/")
+def get_users(db: Session = Depends(get_db)):
+    return db.query(User).all()
 
 
 @router.post("/create")
@@ -64,7 +61,7 @@ def create_interview(
     }
 
 
-@router.get("/my-sessions")
+@router.get("/my-sessions", response_model=list[InterviewResponse])
 def get_my_sessions(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)

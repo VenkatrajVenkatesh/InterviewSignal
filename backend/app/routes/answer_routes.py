@@ -1,26 +1,23 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
-from app.database.db import SessionLocal
+from app.database.deps import get_db
 from app.models.answer_model import Answer
 from app.models.feedback_model import Feedback
 from app.models.interview_model import InterviewSession
 from app.models.question_model import Question
 from app.models.session_question_model import SessionQuestion
 from app.models.user_models import User
-from app.schemas.answer_schema import AnswerCreate
+from app.schemas.answer_schema import AnswerCreate, AnswerResponse
 from app.services.auth_service import get_current_user
 from app.services.feedback_services import generate_mock_feedback
 
 router = APIRouter()
 
 
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
+@router.get("/")
+def get_users(db: Session = Depends(get_db)):
+    return db.query(User).all()
 
 
 @router.post("/submit")
@@ -98,7 +95,7 @@ def submit_answer(
     }
 
 
-@router.get("/session/{session_id}")
+@router.get("/session/{session_id}", response_model=list[AnswerResponse])
 def get_session_answers(
     session_id: int,
     db: Session = Depends(get_db),
