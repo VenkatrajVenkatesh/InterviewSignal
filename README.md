@@ -1,29 +1,42 @@
 # InterviewSignal
 
-AI-powered mock interview platform that helps developers practice interviews and receive AI feedback on their answers.
+InterviewSignal is an AI-ready mock interview platform that helps software engineers practise technical interviews, submit answers, and receive structured feedback.
 
 ## Features
 
-- Mock interview sessions
-- AI-generated feedback
-- Role-based question bank
-- Progress tracking dashboard
+- User signup and login
+- JWT-based authentication
+- Protected API routes
+- Interview session creation
+- Role and difficulty-based question bank
+- Automatic question assignment to sessions
+- Answer submission workflow
+- Mock feedback and scoring pipeline
+- Swagger API documentation
 
 ## Tech Stack
 
-Backend
+- Python
 - FastAPI
-- PostgreSQL
-- Redis
+- SQLAlchemy
+- SQLite
+- JWT Authentication
+- Passlib
+- Swagger/OpenAPI
+- Git & GitHub
 
-Frontend
-- Next.js
-- TailwindCSS
+## Backend Workflow
 
-Infrastructure
-- Docker
-- GitHub Actions
+1. User signs up and logs in
+2. User receives JWT token
+3. User creates interview session
+4. System assigns questions
+5. User submits answers
+6. System generates feedback score
 
-## Status
+## API Documentation
 
-🚧 Project under development
+Run the backend and visit:
+
+```text
+http://127.0.0.1:8000/docs
